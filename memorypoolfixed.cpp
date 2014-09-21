@@ -48,6 +48,7 @@ bool MemoryPoolFixed::init(size_t unit_size, size_t unit_count)
 		*it = (void*)pool;
 		pool += unit_size;
 	}
+	return true;
 }
 
 void* MemoryPoolFixed::alloc()
