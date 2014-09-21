@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <memory.h>
 #include "memorypoolfixed.h"
 
@@ -19,11 +20,11 @@ MemoryPoolFixed::~MemoryPoolFixed()
 {
 	if(_pool != NULL)
 	{
-		delete[] (char*)_pool;
+		free(_pool);
 	}
 }
 
-void MemoryPoolFixed::init(size_t unit_size, size_t unit_count)
+bool MemoryPoolFixed::init(size_t unit_size, size_t unit_count)
 {
 	if(_free_vec.capacity() != unit_count)
 	{
@@ -33,9 +34,14 @@ void MemoryPoolFixed::init(size_t unit_size, size_t unit_count)
 	_unit_size = unit_size;
 	_unit_count = unit_count;
 	_pool_size = unit_size * unit_count;
+	
+	_pool = malloc(_pool_size);
+	if(_pool == NULL)
+	{
+		return false;
+	}
 
-	char *pool = new char[_pool_size];
-	_pool = (void*)pool;
+	char *pool = (char*)_pool;
 	for(std::vector<void*>::iterator it = _free_vec.begin();
 	    it != _free_vec.end(); ++it)
 	{

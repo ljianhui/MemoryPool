@@ -10,7 +10,7 @@ class MemoryPoolFixed
 		MemoryPoolFixed(size_t unit_size, size_t unit_count);
 		MemoryPoolFixed();
 		virtual ~MemoryPoolFixed();
-		void init(size_t unit_size, size_t unit_count);
+		bool init(size_t unit_size, size_t unit_count);
 		void* alloc();
 		bool free(void *unit);
 
